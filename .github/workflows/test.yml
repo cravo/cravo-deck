@@ -1,0 +1,109 @@
+name: Container Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: docker compose build web
+
+      - name: Start container
+        run: docker compose up -d web
+
+      - name: Wait for container to be ready
+        run: sleep 2
+
+      - name: Test container health - HTTP 200
+        run: |
+          STATUS=$(docker compose exec -T web python -c "import server; response = server.app.test_client().get('/'); print(response.status_code)" 2>/dev/null)
+          if [ "$STATUS" != "200" ]; then
+            echo "Expected status 200, got $STATUS"
+            exit 1
+          fi
+          echo "✓ HTTP status: 200"
+
+      - name: Test rendered HTML content
+        run: |
+          docker compose exec -T web python -c "
+          import server
+          response = server.app.test_client().get('/')
+          html = response.get_data(as_text=True)
+          
+          # Check for essential page elements
+          checks = [
+              ('page-shell', 'page shell wrapper'),
+              ('hero', 'hero section'),
+              ('sections', 'sections container'),
+              ('card-grid', 'card grid'),
+              ('cravo.cloud', 'site title'),
+          ]
+          
+          all_passed = True
+          for element, description in checks:
+              if element in html:
+                  print(f'✓ Found {description}')
+              else:
+                  print(f'✗ Missing {description} ({element})')
+                  all_passed = False
+          
+          if not all_passed:
+              exit(1)
+          "
+
+      - name: Test config loading
+        run: |
+          docker compose exec -T web python -c "
+          import server
+          
+          if not server.config:
+              print('✗ Config is empty')
+              exit(1)
+          
+          required_keys = ['title', 'sections']
+          for key in required_keys:
+              if key in server.config:
+                  print(f'✓ Config has {key}')
+              else:
+                  print(f'✗ Config missing {key}')
+                  exit(1)
+          
+          if isinstance(server.config.get('sections', []), list):
+              print(f'✓ Found {len(server.config[\"sections\"])} sections')
+          else:
+              print('✗ Sections is not a list')
+              exit(1)
+          "
+
+      - name: Test template rendering
+        run: |
+          docker compose exec -T web python -c "
+          import server
+          response = server.app.test_client().get('/')
+          
+          if response.status_code == 200:
+              print('✓ Template renders successfully')
+          else:
+              print(f'✗ Template rendering failed (status {response.status_code})')
+              exit(1)
+          "
+
+      - name: Clean up
+        if: always()
+        run: docker compose down
+
+      - name: Print summary
+        if: success()
+        run: echo "✓ All container tests passed!"

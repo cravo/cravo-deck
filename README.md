@@ -1,5 +1,7 @@
 # cravo-deck
 
+[![Container Tests](https://github.com/cravo/cravo-deck/actions/workflows/test.yml/badge.svg)](https://github.com/cravo/cravo-deck/actions/workflows/test.yml)
+
 A super-simple, self-hostable dashboard for organizing and displaying links to your web apps and services in a beautiful, modern interface.
 
 ## Features
