@@ -4,6 +4,8 @@
 
 A super-simple, self-hostable dashboard for organizing and displaying links to your web apps and services in a beautiful, modern interface.
 
+See a live example at [homepage.cravo.cloud](https://homepage.cravo.cloud)
+
 ## Features
 
 - 🎨 **Modern, responsive design** – Beautiful card-based layout with atmospheric effects
