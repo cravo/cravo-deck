@@ -1,0 +1,31 @@
+title: cravo.cloud
+description: "a collection of small web apps and games, all hosted on cravo.cloud."
+sections:
+  - title: games
+    items:
+      - title: numbers.cravo.cloud
+        description: "a game where you try to collect all the numbers from 0 to 99, with limited spins per day."
+        link: "https://numbers.cravo.cloud/"
+  - title: utilities
+    items:
+      - title: pass.cravo.cloud
+        description: "a password generator that creates strong and unique passwords for you."
+        link: "https://pass.cravo.cloud/"
+      - title: qr.cravo.cloud
+        description: "a QR code generator that allows you to create QR codes for URLs."
+        link: "https://qr.cravo.cloud/"
+      - title: down.cravo.cloud
+        description: "check if a website is down or not."
+        link: "https://down.cravo.cloud/"
+      - title: ip.cravo.cloud
+        description: "a simple tool to check your public IP address."
+        link: "https://ip.cravo.cloud/"
+      - title: sheet.cravo.cloud
+        description: "a simple online spreadsheet application."
+        link: "https://sheet.cravo.cloud/"
+  - title: AI
+    items:
+      - title: iotd.cravo.cloud
+        description: "every night an AI dreams up an image prompt then makes it a reality."
+        link: "https://iotd.cravo.cloud/"
+footer: "© 2026 cravo - source for this dashboard is at <a href='https://github.com/cravo/cravo-deck'>GitHub</a>."

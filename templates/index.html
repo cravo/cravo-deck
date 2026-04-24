@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{ config.title or "cravo.cloud" }}</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+	<div class="page-shell">
+		<div class="page-glow page-glow-left"></div>
+		<div class="page-glow page-glow-right"></div>
+		<main class="layout">
+			<header class="hero">
+				<h1>{{ config.title or "cravo.cloud" }}</h1>
+				<p class="hero-copy">{{ config.get("description", "") }}</p>
+			</header>
+
+			<div class="sections">
+		{% for section in config.get("sections", []) %}
+			<section class="section-block">
+				<div class="section-header">
+					<h2>{{ section.get("title", "") }}</h2>
+				</div>
+				<ul class="card-grid">
+					{% for item in section.get("items", []) %}
+					<li class="card-item">
+						<a class="card-link" href="{{ item.get("link", "#") }}" target="_blank" rel="noreferrer">
+							<span class="card-title">{{ item.get("title", "") }}</span>
+							<span class="card-arrow">Open</span>
+						</a>
+						<p class="card-description">{{ item.get("description", "") }}</p>
+					</li>
+					{% endfor %}
+				</ul>
+			</section>
+		{% endfor %}
+			</div>
+		</main>
+		<footer>
+			<p>{{ config.get("footer", "")|safe }}</p>
+		</footer>
+	</div>
+</body>
+</html>

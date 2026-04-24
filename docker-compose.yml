@@ -1,0 +1,10 @@
+services:
+  web:
+    build:
+      context: .
+    env_file: .env
+    ports:
+      - "${PORT}:5000"
+    volumes:
+      - ./data/config.yml:/app/config.yml:ro
+    restart: unless-stopped
