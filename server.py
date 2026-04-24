@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from flask import Flask, render_template
+from flask import Flask, jsonify, render_template
 import yaml
 
 
@@ -28,7 +28,6 @@ def load_config(force: bool = False) -> None:
         config = yaml.safe_load(f) or {}
 
     config_mtime_ns = current_mtime_ns
-    print("Loaded config:", config)
 
 
 @app.before_request
@@ -38,6 +37,11 @@ def refresh_config() -> None:
 @app.route("/")
 def index() -> str:
     return render_template("index.html", config=config)
+
+
+@app.route("/healthz")
+def healthz() -> tuple:
+    return jsonify({"status": "ok"}), 200
 
 
 load_config(force=True)
