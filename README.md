@@ -163,7 +163,9 @@ To run locally without Docker:
    flask --app server.py run
    ```
 
-The app will be available at `http://localhost:5000`
+The app will be available at `http://localhost:3000`
+
+(or the port you specified in .env)
 
 ## Architecture
 
