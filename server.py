@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 from flask import Flask, jsonify, render_template
 import yaml
@@ -6,7 +7,25 @@ import yaml
 
 app = Flask(__name__)
 BASE_DIR = Path(__file__).resolve().parent
-CONFIG_FILE = BASE_DIR / "config.yml"
+
+
+def resolve_config_file() -> Path:
+    configured = os.getenv("CONFIG_FILE")
+    if configured:
+        return Path(configured)
+
+    candidates = [
+        BASE_DIR / "data" / "config.yml",
+        BASE_DIR / "config.yml",
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+
+    return candidates[0]
+
+
+CONFIG_FILE = resolve_config_file()
 config = {}
 config_mtime_ns = None
 
