@@ -23,6 +23,11 @@ sections:
       - title: sheet.cravo.cloud
         description: "a simple online spreadsheet application."
         link: "https://sheet.cravo.cloud/"
+  - title: Finance
+    items:
+      - title: trader.cravo.cloud
+        description: "a stock picker which aims to find stocks set to increase by 5% in a 5-10d timeframe.  Not financial advice."
+        link: "https://trader.cravo.cloud/"
   - title: AI
     items:
       - title: iotd.cravo.cloud
